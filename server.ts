@@ -1,6 +1,11 @@
+
+import connect  from "./src/db";
 import  app  from "./src/App";
 
-const startserver=()=>{
+const startserver= async()=>{
+
+    await connect();
+
     const port=process.env.PORT || 3000;
 
     app.listen(port,()=>{
