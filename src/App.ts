@@ -1,10 +1,18 @@
 import express from "express";
 
-const app= express();
+const r= express.Router();
 
-app.post("/book", async(req,res)=>{
-    const ab=await res.send({"massage":"hello"});
+r.post("/book", async(req,res)=>{
+    const ab=await res.send({"massage":"my anme is ravu...."});
+    req.body()
 })
 
 
-export default app;
+r.post("/animal", async(req,res)=>{
+    const ab=await res.send({"massage":"my name is ravi.."});
+})
+
+
+
+
+export default r;
