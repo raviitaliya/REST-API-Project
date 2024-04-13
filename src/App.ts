@@ -1,18 +1,33 @@
-import express from "express";
 
-const r= express.Router();
+import express, { NextFunction, Request, Response } from "express";
+import createHttpError, { HttpError } from "http-errors";
 
-r.post("/book", async(req,res)=>{
-    const ab=await res.send({"massage":"my anme is ravu...."});
-    req.body()
+const r = express.Router();
+const app = express();
+
+// r.post("/book", async (req, res) => {
+//     const error = createHttpError(400,"somthing went wrong..")
+//     throw error;
+
+//   const ab = await res.send({ massage: "my anme is ravu...." });
+//   req.body();
+// });
+
+r.get("/",(res,req)=>{
+    const error = createHttpError(400,"somthing went wrong..")
+    throw error;
+    
+    req.json({"massge":"hellow"})
 })
 
 
-r.post("/animal", async(req,res)=>{
-    const ab=await res.send({"massage":"my name is ravi.."});
-})
+app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
+  const statusCode = err.statusCode || 500;
 
-
-
+  return res.status(statusCode).json({
+    message: err.message,
+    errorStack: err.stack,
+  });
+});
 
 export default r;
