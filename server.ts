@@ -2,12 +2,13 @@
 import connect  from "./src/db";
 import express from "express";
 import appRouter from "./src/App"
+import { config } from "./src/config";
 
 const startserver= async()=>{
 
     await connect();
 
-    const port=process.env.PORT || 3000;
+    const port=config.port || 3000;
 
     let app = express()
 
