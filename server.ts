@@ -3,6 +3,7 @@ import { config } from "./src/config/config";
 import app from "./src/App";
 const startserver = async () => {
  
+  
   await connect();
   const port = config.port || 3000;
 

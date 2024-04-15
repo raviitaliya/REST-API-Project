@@ -1,11 +1,18 @@
-import express from "express";
+import { NextFunction, Request, Response } from "express";
+import createHttpError from "http-errors";
+import userModel from "./userModel";
 
-const userControllor = express.Router();
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { name, email, password } = req.body;
 
-userControllor.post("/", async (req, res) => {
-  await res.json({
-    message: "Register Route",
-  });
-});
+  //error handling
+  if (!name || !email || !password) {
+    const error = createHttpError(400, "all filds are required..");
+    return next(error);
+  }
 
-export default userControllor;
+  
+
+  res.json({ massage: "user created " });
+};
+export { createUser };
