@@ -25,11 +25,16 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
   //password hashing
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  //data store in database
+
+  const newUser = await userModel.create({
+    name,
+    email,
+    password: hashedPassword,
+  })
+
   
 
-
-  
-
-  res.json({ massage: "user created " });
+  res.json({ id: newUser._id});
 };
 export { createUser };
