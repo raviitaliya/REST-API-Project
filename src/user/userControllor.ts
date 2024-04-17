@@ -11,11 +11,15 @@ import { user } from "./userTypes";
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body;
 
+
+
   //error handling
   if (!name || !email || !password) {
     const error = createHttpError(400, "all filds are required..");
     return next(error);
   }
+
+
 
   //email verfiy
   try {
@@ -29,9 +33,13 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     return next(createHttpError(500, "Error whaile getting user..."));
   }
 
+
+
   //password hashing
 
   const hashedPassword = await bcrypt.hash(password, 10);
+
+
 
   //data store in database
 
@@ -47,10 +55,11 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     return next(createHttpError(500, "Error whaile hashing password..."));
   }
 
+
   //jwt token sign
 
+
   try {
-    
     const token = sign({ sub: newUser._id }, config.jwttoken as string, {
       expiresIn: "1d",
     });
@@ -61,4 +70,14 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     return next(createHttpError(500, "Error whaile signing user..."));
   }
 };
-export { createUser };
+
+const finddata = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await userModel.find();
+    res.json({ data });
+  } catch (error) {
+    return next(createHttpError(500, "Error geting users.."));
+  }
+}
+
+export { createUser,finddata };
